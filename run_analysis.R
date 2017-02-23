@@ -2,8 +2,8 @@ library(plyr)
 library(dplyr)
 
 # download the raw data zip file and unzip
-# download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip", "rawData.zip")
-# unzip("rawData.zip")
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip", "rawData.zip")
+unzip("rawData.zip")
 
 # read test and training data
 subjectTest <- read.table("UCI HAR Dataset/test/subject_test.txt", col.names = c("subjectId"))
@@ -20,8 +20,8 @@ dataAll <- bind_rows(dataTest, dataTrain)
 dataActivityIds <- bind_rows(dataActivityIdsTest, dataActivityIdsTrain)
 
 # read list of feature variables and select just the mean and standard deviation features
-features <- read.table("UCI HAR Dataset/features.txt", col.names = c("featureId", "featureName"))
-meanAndStdDevFeatures <- features[grep("mean\\(\\)|std\\(\\)", features$featureName, ignore.case = TRUE),]
+featureDict <- read.table("UCI HAR Dataset/features.txt", col.names = c("featureId", "featureName"))
+meanAndStdDevFeatures <- featureDict[grep("mean\\(\\)|std\\(\\)", featureDict$featureName, ignore.case = TRUE),]
 
 # 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 dataMeanAndStdDevOnly <- dataAll[,meanAndStdDevFeatures$featureId]
